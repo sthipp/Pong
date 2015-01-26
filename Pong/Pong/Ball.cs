@@ -20,6 +20,7 @@ namespace Pong
         #region Private Members
         private SpriteBatch spriteBatch;
         private ContentManager contentManager;
+        private Random rand;
 
         // Default speed of ball
         private const float DEFAULT_X_SPEED = 150;
@@ -112,6 +113,7 @@ namespace Pong
             : base(game)
         {
             contentManager = new ContentManager(game.Services);
+            rand = new Random();
         }
 
         /// <summary>
@@ -122,16 +124,14 @@ namespace Pong
             ballSpeed.X = DEFAULT_X_SPEED;
             ballSpeed.Y = DEFAULT_Y_SPEED;
 
-            ballPosition.Y = 0;
+            ballPosition.X = (GraphicsDevice.Viewport.Width - ballSprite.Width) / 2;
+            ballPosition.Y = (GraphicsDevice.Viewport.Height - ballSprite.Height) / 2;
 
-            // Make sure ball is not positioned off the screen
-            if (ballPosition.X < 0)
-                ballPosition.X = 0;
-            else if (ballPosition.X + ballSprite.Width > GraphicsDevice.Viewport.Width)
+            if (rand.Next(2) == 0)
             {
-                ballPosition.X = GraphicsDevice.Viewport.Width - ballSprite.Width;
-                ballSpeed.Y *= -1;
+                ballSpeed.X *= -1;
             }
+            
         }
 
         /// <summary>
